@@ -1,5 +1,6 @@
 import { BucketScope, Command } from '@sapphire/framework';
 import { isMessageInstance } from '@sapphire/discord.js-utilities';
+import { PermissionFlagsBits } from 'discord-api-types/v10'
 import { Haunter } from '../Haunter';
 
 export class HauntCommand extends Command {
@@ -41,6 +42,14 @@ export class HauntCommand extends Command {
   }
 
   public override registerApplicationCommands(registry: Command.Registry) {
-    registry.registerChatInputCommand((builder) => builder.setName(this.name).setDescription(this.description).addUserOption(userBuilder => userBuilder.setName('user').setDescription('The user to haunt').setRequired(true)));
+    registry.registerChatInputCommand((builder) => 
+      builder.setName(this.name)
+        .setDescription(this.description)
+        .addUserOption(userBuilder => userBuilder.setName('user').setDescription('The user to haunt').setRequired(true)
+      )
+      .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers), {
+        idHints: [process.env.HAUNT_COMMAND_ID ?? ""]
+      }
+    );
   }
 }
