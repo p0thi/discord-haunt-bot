@@ -1,0 +1,7 @@
+version: "1.0"
+services:
+  bot:
+    image: ghcr.io/p0thi/discord-haunt-bot:latest
+    restart: always
+    env_file:
+      - bot.env
